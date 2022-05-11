@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.collections.ObservableArray;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.*;
 
@@ -103,56 +104,62 @@ public class Utilities {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String retrievedPassword = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teacher_manager", "root", "sailtheoceanblue");
-            preparedStatement = connection.prepareStatement("SELECT password FROM employees WHERE user_name = ?");
-            preparedStatement.setString(1, username);
-            resultSet = preparedStatement.executeQuery();
-            if(!resultSet.isBeforeFirst()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error 1: Username and or password is incorrect");
-                alert.show();
-            }
-            else {
-                while(resultSet.next()) {
-                    retrievedPassword = resultSet.getString("password");
-                    if(retrievedPassword.equals(password) && username.equals("admin")) {
-                        System.out.println("admin");
-                        changeScene(event, "adminPage.fxml","User Page", username);
+
+        if(username.isBlank() || password.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields");
+        }
+        else {
+            try {
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teacher_manager", "root", "sailtheoceanblue");
+                preparedStatement = connection.prepareStatement("SELECT password FROM employees WHERE user_name = ?");
+                preparedStatement.setString(1, username);
+                resultSet = preparedStatement.executeQuery();
+                if (!resultSet.isBeforeFirst()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Username and or password is incorrect");
+                    alert.show();
+                }
+
+                else {
+                    while (resultSet.next()) {
+                        retrievedPassword = resultSet.getString("password");
+                        if (retrievedPassword.equals(password) && username.equals("admin")) {
+                            System.out.println("admin");
+                            changeScene(event, "adminPage.fxml", "User Page", username);
+                        } else if (retrievedPassword.equals(password)) {
+                            System.out.println("user");
+                            changeScene(event, "userPage.fxml", "User Page", username);
+                        }
+                        else {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("Username and or password is incorrect");
+                            alert.show();
+                        }
                     }
-                    else if(retrievedPassword.equals(password)) {
-                        System.out.println("user");
-                        changeScene(event, "userPage.fxml", "User Page", username);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (resultSet != null) {
+                    try {
+                        resultSet.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                 }
-            }
-            if(!retrievedPassword.equals(password)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error 2: Username and or password is incorrect");
-                alert.show();
-            }
-        } catch(SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if(resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if (preparedStatement != null) {
+                    try {
+                        preparedStatement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            if(preparedStatement != null) {
-                try{
-                    preparedStatement.close();
-                } catch(SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(connection != null) {
-                try {
-                    connection.close();
-                } catch(SQLException e) {
-                    e.printStackTrace();
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

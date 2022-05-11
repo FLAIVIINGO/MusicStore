@@ -33,12 +33,12 @@
                   <Image url="@../images/icons8-remove-64.png" />
                </image>
             </ImageView>
-            <Button fx:id="updateBtn" layoutX="68.0" layoutY="335.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="UPDATE" textFill="#d000ff">
+            <Button fx:id="updateBtn" layoutX="68.0" layoutY="335.0" mnemonicParsing="false" onAction="#edit" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="UPDATE" textFill="#d000ff">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="deleteBtn" layoutX="68.0" layoutY="391.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="DELETE" textFill="#d000ff">
+            <Button fx:id="deleteBtn" layoutX="68.0" layoutY="391.0" mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="DELETE" textFill="#d000ff">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
@@ -59,10 +59,6 @@
             <TableColumn fx:id="startDateCol" prefWidth="117.0" text="Start Date" />
         </columns>
       </TableView>
-      <ImageView fitHeight="57.0" fitWidth="219.0" layoutX="393.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/music2.png" />
-         </image>
-      </ImageView>
+      <TextField fx:id="searchField" layoutX="372.0" layoutY="14.0" prefHeight="25.0" prefWidth="185.0" promptText="Search" />
    </children>
 </AnchorPane>
