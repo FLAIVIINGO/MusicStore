@@ -15,6 +15,7 @@ https://www.jetbrains.com/idea/download/?fromIDE=#section=windows
 
 ## Quickstart For Windows Only
 ### After creating you SQL connection:
++ Open MySQL 5.7 Command Line
 + `CREATE DATABASE data_base_name;` Replace data_base_name with your own naming convention
 + `CREATE TABLE table_name (` Replace table_name with your own naming convention
 + `user_id INT PRIMARY KEY`
