@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.sql.*;
 
 public class Utilities {
+    private static String jdbcURL = "";
+    private static String sqlConnectionName = "";
+    private static String sqlPassword = "";
 
     // Change Scene method
     public static void changeScene(ActionEvent event, String fxmlFile, String title, String username) {
@@ -64,7 +67,7 @@ public class Utilities {
         ResultSet resultSet = null;
         ObservableList<Teachers> list = FXCollections.observableArrayList();
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teacher_manager", "root", "sailtheoceanblue");
+            connection = DriverManager.getConnection(jdbcURL, sqlConnectionName, sqlPassword);
             preparedStatement = connection.prepareStatement("SELECT * FROM employees");
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
@@ -110,7 +113,7 @@ public class Utilities {
         }
         else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teacher_manager", "root", "sailtheoceanblue");
+                connection = DriverManager.getConnection(jdbcURL, sqlConnectionName, sqlPassword);
                 preparedStatement = connection.prepareStatement("SELECT password FROM employees WHERE user_name = ?");
                 preparedStatement.setString(1, username);
                 resultSet = preparedStatement.executeQuery();

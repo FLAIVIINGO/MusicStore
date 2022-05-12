@@ -75,6 +75,10 @@ public class AdminPageController implements Initializable {
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
 
+    private String jdbcURL = "";
+    private String sqlConnectionName = "";
+    private String sqlPassword = "";
+
     public void addUsers() {
         if(txt_id.getText().isBlank() || txt_username.getText().isBlank() || txt_password.getText().isBlank()
         || txt_email.getText().isBlank() || txt_start_date.getText().isBlank()) {
@@ -82,7 +86,7 @@ public class AdminPageController implements Initializable {
         }
         else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teacher_manager", "root", "sailtheoceanblue");
+                connection = DriverManager.getConnection(jdbcURL, sqlConnectionName, sqlPassword);
                 preparedStatement = connection.prepareStatement("INSERT INTO employees VALUES(?,?,?,?,?)");
                 preparedStatement.setString(1, txt_id.getText());
                 preparedStatement.setString(2, txt_username.getText());
@@ -113,7 +117,7 @@ public class AdminPageController implements Initializable {
 
     public void edit() {
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teacher_manager", "root", "sailtheoceanblue");
+            connection = DriverManager.getConnection(jdbcURL, sqlConnectionName, sqlPassword);
             String value1 = txt_id.getText();
             String value2 = txt_username.getText();
             String value3 = txt_password.getText();
@@ -143,7 +147,7 @@ public class AdminPageController implements Initializable {
         }
         else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teacher_manager", "root", "sailtheoceanblue");
+                connection = DriverManager.getConnection(jdbcURL, sqlConnectionName, sqlPassword);
                 String value1 = txt_id.getText();
                 String sql = "DELETE FROM employees WHERE user_id = '" + value1 + "'";
                 preparedStatement = connection.prepareStatement(sql);
@@ -167,7 +171,7 @@ public class AdminPageController implements Initializable {
         userTable.setItems(list);
     }
 
-    public void searchUser() {
+    /*public void searchUser() {
         userIDCol.setCellValueFactory(new PropertyValueFactory<Teachers, Integer>("user_id"));
         usernameCol.setCellValueFactory(new PropertyValueFactory<Teachers,String>("user_name"));
         passwordCol.setCellValueFactory(new PropertyValueFactory<Teachers,String>("password"));
@@ -198,10 +202,10 @@ public class AdminPageController implements Initializable {
         SortedList<Teachers> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(userTable.comparatorProperty());
         userTable.setItems(sortedList);
-    }
+    }*/
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateTable();
-        searchUser();
+        //searchUser();
     }
 }
